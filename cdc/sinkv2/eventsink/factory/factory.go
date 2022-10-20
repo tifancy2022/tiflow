@@ -20,6 +20,7 @@ import (
 	"github.com/pingcap/tiflow/cdc/model"
 	"github.com/pingcap/tiflow/cdc/sinkv2/eventsink"
 	"github.com/pingcap/tiflow/cdc/sinkv2/eventsink/blackhole"
+	"github.com/pingcap/tiflow/cdc/sinkv2/eventsink/memory"
 	"github.com/pingcap/tiflow/cdc/sinkv2/eventsink/mq"
 	"github.com/pingcap/tiflow/cdc/sinkv2/eventsink/mq/dmlproducer"
 	"github.com/pingcap/tiflow/cdc/sinkv2/eventsink/txn"
@@ -74,6 +75,10 @@ func New(ctx context.Context,
 	case sink.BlackHoleSchema:
 		bs := blackhole.New()
 		s.rowSink = bs
+		s.sinkType = sink.RowSink
+	case sink.MemorySchema:
+		ms := memory.New(sinkURI.Host)
+		s.rowSink = ms
 		s.sinkType = sink.RowSink
 	default:
 		return nil,

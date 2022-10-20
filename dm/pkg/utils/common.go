@@ -334,7 +334,11 @@ var ZeroSessionCtx sessionctx.Context
 
 // NewSessionCtx return a session context with specified session variables.
 func NewSessionCtx(vars map[string]string) sessionctx.Context {
-	variables := variable.NewSessionVars()
+	s := &session{
+		values:               make(map[fmt.Stringer]interface{}, 1),
+		builtinFunctionUsage: make(map[string]uint32),
+	}
+	variables := variable.NewSessionVars(s)
 	for k, v := range vars {
 		_ = variables.SetSystemVar(k, v)
 		if strings.EqualFold(k, "time_zone") {
@@ -342,12 +346,8 @@ func NewSessionCtx(vars map[string]string) sessionctx.Context {
 			variables.StmtCtx.TimeZone = loc
 		}
 	}
-
-	return &session{
-		vars:                 variables,
-		values:               make(map[fmt.Stringer]interface{}, 1),
-		builtinFunctionUsage: make(map[string]uint32),
-	}
+	s.vars = variables
+	return s
 }
 
 // AdjustBinaryProtocolForDatum converts the data in binlog to TiDB datum.

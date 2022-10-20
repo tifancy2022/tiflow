@@ -49,6 +49,8 @@ const (
 	TiDBSchema = "tidb"
 	// TiDBSSLSchema indicates the schema is TiDB+ssl.
 	TiDBSSLSchema = "tidb+ssl"
+	// MemorySchema indicates the schema is memory.
+	MemorySchema = "memory"
 )
 
 // IsMQScheme returns true if the scheme belong to mq schema.

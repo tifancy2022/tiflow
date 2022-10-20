@@ -105,6 +105,7 @@ func init() {
 	) (Sink, error) {
 		return newBlackHoleSink(ctx), nil
 	}
+	sinkIniterMap["memory"] = sinkIniterMap["blackhole"]
 
 	// register mysql sink
 	sinkIniterMap["mysql"] = func(

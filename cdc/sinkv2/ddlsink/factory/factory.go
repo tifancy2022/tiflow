@@ -44,7 +44,7 @@ func New(
 	case sink.KafkaSchema, sink.KafkaSSLSchema:
 		return mq.NewKafkaDDLSink(ctx, sinkURI, cfg,
 			kafka.NewAdminClientImpl, ddlproducer.NewKafkaDDLProducer)
-	case sink.BlackHoleSchema:
+	case sink.BlackHoleSchema, sink.MemorySchema:
 		return blackhole.New(), nil
 	case sink.MySQLSSLSchema, sink.MySQLSchema, sink.TiDBSchema, sink.TiDBSSLSchema:
 		return mysql.NewMySQLDDLSink(ctx, sinkURI, cfg, pmysql.CreateMySQLDBConn)
